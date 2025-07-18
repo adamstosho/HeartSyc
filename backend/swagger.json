@@ -1,0 +1,468 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MatchNaija API",
+    "version": "1.0.0",
+    "description": "A culturally-aware matchmaking platform focused on long-term marriage in Nigeria."
+  },
+  "servers": [
+    { "url": "http://localhost:5000/api" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "format": "objectId" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "gender": { "type": "string", "enum": ["male", "female"] },
+          "dob": { "type": "string", "format": "date" },
+          "tribe": { "type": "string" },
+          "religion": { "type": "string" },
+          "state": { "type": "string" },
+          "spokenLanguages": { "type": "array", "items": { "type": "string" } },
+          "maritalIntent": { "type": "string" },
+          "education": { "type": "string" },
+          "employmentStatus": { "type": "string" },
+          "bio": { "type": "string" },
+          "preferences": {
+            "type": "object",
+            "properties": {
+              "preferredGender": { "type": "string" },
+              "preferredReligion": { "type": "string" },
+              "preferredTribes": { "type": "array", "items": { "type": "string" } },
+              "ageRange": {
+                "type": "object",
+                "properties": {
+                  "min": { "type": "integer" },
+                  "max": { "type": "integer" }
+                }
+              }
+            }
+          },
+          "isVerified": { "type": "boolean" },
+          "profilePhoto": { "type": "string" },
+          "isBanned": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "role": { "type": "string", "enum": ["user", "admin"] }
+        }
+      },
+      "UserRegister": {
+        "type": "object",
+        "required": ["name", "email", "password", "gender", "dob", "tribe", "religion", "state", "spokenLanguages", "maritalIntent", "preferences"],
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" },
+          "gender": { "type": "string", "enum": ["male", "female"] },
+          "dob": { "type": "string", "format": "date" },
+          "tribe": { "type": "string" },
+          "religion": { "type": "string" },
+          "state": { "type": "string" },
+          "spokenLanguages": { "type": "array", "items": { "type": "string" } },
+          "maritalIntent": { "type": "string" },
+          "education": { "type": "string" },
+          "employmentStatus": { "type": "string" },
+          "bio": { "type": "string" },
+          "preferences": {
+            "type": "object",
+            "properties": {
+              "preferredGender": { "type": "string" },
+              "preferredReligion": { "type": "string" },
+              "preferredTribes": { "type": "array", "items": { "type": "string" } },
+              "ageRange": {
+                "type": "object",
+                "properties": {
+                  "min": { "type": "integer" },
+                  "max": { "type": "integer" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" }
+        }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string" }
+        }
+      },
+      "MatchRequest": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "format": "objectId" },
+          "from": { "$ref": "#/components/schemas/User" },
+          "to": { "$ref": "#/components/schemas/User" },
+          "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Chat": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "format": "objectId" },
+          "matchId": { "type": "string", "format": "objectId" },
+          "participants": { "type": "array", "items": { "type": "string", "format": "objectId" } },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sender": { "type": "string", "format": "objectId" },
+                "content": { "type": "string" },
+                "timestamp": { "type": "string", "format": "date-time" }
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserRegister" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Token" } } } },
+          "400": { "description": "Validation error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserLogin" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Token" } } } },
+          "400": { "description": "Invalid credentials", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Get current user info",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "User info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "401": { "description": "Unauthorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Filter users",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "gender", "in": "query", "schema": { "type": "string" } },
+          { "name": "religion", "in": "query", "schema": { "type": "string" } },
+          { "name": "tribe", "in": "query", "schema": { "type": "string" } },
+          { "name": "minAge", "in": "query", "schema": { "type": "integer" } },
+          { "name": "maxAge", "in": "query", "schema": { "type": "integer" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": { "type": "array", "items": { "$ref": "#/components/schemas/User" } },
+                    "page": { "type": "integer" },
+                    "totalPages": { "type": "integer" },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "put": {
+        "summary": "Update user by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserRegister" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "User updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete user by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User deleted", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" } } } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/match/suggestions": {
+      "get": {
+        "summary": "Get match suggestions",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Suggestions", "content": { "application/json": { "schema": { "type": "object", "properties": { "suggestions": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } } } } },
+          "401": { "description": "Unauthorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/match/request/{userId}": {
+      "post": {
+        "summary": "Send match request",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "201": { "description": "Request sent", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" } } } } } },
+          "400": { "description": "Already sent or invalid", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/match/accept/{requestId}": {
+      "post": {
+        "summary": "Accept match request",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "requestId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Accepted", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" } } } } } },
+          "404": { "description": "Not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/match/reject/{requestId}": {
+      "post": {
+        "summary": "Reject match request",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "requestId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Rejected", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" } } } } } },
+          "404": { "description": "Not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/chat/{matchId}": {
+      "get": {
+        "summary": "Get chat by matchId",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "matchId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Chat found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Chat" } } } },
+          "404": { "description": "Not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "post": {
+        "summary": "Send message in chat",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "matchId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "content": { "type": "string" } }, "required": ["content"] }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Message sent", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Chat" } } } },
+          "404": { "description": "Not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/chat/conversations": {
+      "get": {
+        "summary": "Get all chat conversations for user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Chats found", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Chat" } } } } },
+          "401": { "description": "Unauthorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "summary": "Get all users (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "All users", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } } },
+          "403": { "description": "Forbidden", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/verify-user/{id}": {
+      "post": {
+        "summary": "Verify a user (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User verified", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" }, "user": { "$ref": "#/components/schemas/User" } } } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/ban-user/{id}": {
+      "post": {
+        "summary": "Ban a user (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User banned", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" }, "user": { "$ref": "#/components/schemas/User" } } } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/reports": {
+      "get": {
+        "summary": "Get all reports (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Reports", "content": { "application/json": { "schema": { "type": "array", "items": { "type": "object" } } } } },
+          "403": { "description": "Forbidden", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/report-user/{id}": {
+      "post": {
+        "summary": "Report a user",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "reason": { "type": "string" } }, "required": ["reason"] }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Report received", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" } } } } } }
+        }
+      }
+    },
+    "/admin/unban-user/{id}": {
+      "post": {
+        "summary": "Unban a user (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User unbanned", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" }, "user": { "$ref": "#/components/schemas/User" } } } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/delete-user/{id}": {
+      "delete": {
+        "summary": "Delete a user (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User deleted", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string" } } } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/admin/stats": {
+      "get": {
+        "summary": "Get admin statistics (admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Admin stats", "content": { "application/json": { "schema": { "type": "object", "properties": {
+            "totalUsers": { "type": "integer" },
+            "verifiedUsers": { "type": "integer" },
+            "bannedUsers": { "type": "integer" },
+            "reports": { "type": "integer" },
+            "recentSignups": { "type": "integer" },
+            "totalAdmins": { "type": "integer" }
+          } } } } },
+          "403": { "description": "Forbidden", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    }
+  }
+} 
