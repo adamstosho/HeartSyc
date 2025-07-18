@@ -6,7 +6,7 @@
     "description": "A culturally-aware matchmaking platform focused on long-term marriage in Nigeria."
   },
   "servers": [
-    { "url": "http://localhost:5000/api" }
+    { "url": "https://heartsync-0boj.onrender.com/api" }
   ],
   "components": {
     "securitySchemes": {
