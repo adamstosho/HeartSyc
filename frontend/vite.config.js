@@ -12,12 +12,14 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('react')) return 'vendor-react';
-            if (id.includes('socket.io-client')) return 'vendor-socketio';
-            if (id.includes('react-query')) return 'vendor-reactquery';
+            if (id.includes('@tanstack/react-query')) return 'vendor-reactquery';
             return 'vendor';
           }
         }
       }
     }
+  },
+  define: {
+    global: 'globalThis',
   }
 })

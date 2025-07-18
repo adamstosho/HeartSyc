@@ -1,5 +1,3 @@
-"use client"
-
 import { createContext, useContext, useReducer, useEffect } from "react"
 import { authAPI } from "../api/auth"
 import toast from "react-hot-toast"
