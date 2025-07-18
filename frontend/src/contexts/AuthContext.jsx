@@ -1,8 +1,8 @@
-import { createContext, useContext, useReducer, useEffect } from "react"
+import React, { createContext, useContext, useReducer, useEffect } from "react"
 import { authAPI } from "../api/auth"
 import toast from "react-hot-toast"
 
-const AuthContext = createContext()
+const AuthContext = React.createContext()
 
 const initialState = {
   user: null,

@@ -21,5 +21,11 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
+  },
+  resolve: {
+    alias: {
+      'react': 'react',
+      'react-dom': 'react-dom'
+    }
   }
 })
