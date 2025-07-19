@@ -27,5 +27,8 @@ export default defineConfig({
       'react': 'react',
       'react-dom': 'react-dom'
     }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom']
   }
 })
