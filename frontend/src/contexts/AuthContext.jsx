@@ -1,8 +1,8 @@
-import React from "react"
+import React, { createContext, useContext, useReducer, useEffect } from "react"
 import { authAPI } from "../api/auth"
 import toast from "react-hot-toast"
 
-const AuthContext = React.createContext()
+const AuthContext = createContext()
 
 const initialState = {
   user: null,
@@ -29,9 +29,9 @@ function authReducer(state, action) {
 }
 
 export function AuthProvider({ children }) {
-  const [state, dispatch] = React.useReducer(authReducer, initialState)
+  const [state, dispatch] = useReducer(authReducer, initialState)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem("token")
       if (token) {
@@ -112,7 +112,7 @@ export function AuthProvider({ children }) {
 }
 
 export const useAuth = () => {
-  const context = React.useContext(AuthContext)
+  const context = useContext(AuthContext)
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider")
   }
