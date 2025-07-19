@@ -162,10 +162,6 @@ This is the edit profile page
 User logout toggle 
 
 
-
-
-
-
 ## Deployment
 - The app is ready for deployment on Vercel (frontend) and Render/Heroku (backend).
 - Set environment variables in your deployment dashboard as shown above.
