@@ -21,7 +21,8 @@ function Navbar() {
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: User },
     { path: "/discover", label: "Discover", icon: Search },
-    { path: "/matches", label: "Matches", icon: Users },
+    // Only show Matches for non-admins
+    ...(user?.role !== "admin" ? [{ path: "/matches", label: "Matches", icon: Users }] : []),
     { path: "/chat", label: "Chat", icon: MessageCircle },
   ]
 

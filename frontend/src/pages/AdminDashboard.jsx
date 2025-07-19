@@ -12,6 +12,8 @@ function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedUser, setSelectedUser] = useState(null)
   const [showUserModal, setShowUserModal] = useState(false)
+  const [selectedReport, setSelectedReport] = useState(null)
+  const [showReportModal, setShowReportModal] = useState(false)
   const queryClient = useQueryClient()
 
   // Fetch all users
@@ -126,6 +128,11 @@ function AdminDashboard() {
   const openUserModal = (user) => {
     setSelectedUser(user)
     setShowUserModal(true)
+  }
+
+  const openReportModal = (report) => {
+    setSelectedReport(report)
+    setShowReportModal(true)
   }
 
   const renderUsers = () => (
@@ -262,13 +269,14 @@ function AdminDashboard() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-deep-navy">User Report</h3>
-                    <p className="text-sm text-slate-gray mt-1">Report details would be displayed here</p>
-                    <p className="text-xs text-slate-gray mt-2">Reported on {new Date().toLocaleDateString()}</p>
+                    <p className="text-sm text-slate-gray mt-1">{report.reason}</p>
+                    <p className="text-xs text-slate-gray mt-2">Reported on {new Date(report.createdAt).toLocaleDateString()}</p>
+                    <p className="text-xs text-slate-gray mt-2">Reporter: {report.reporter?.name || 'Unknown'} ({report.reporter?.email || ''})</p>
+                    <p className="text-xs text-slate-gray mt-2">Reported User: {report.reported?.name || 'Unknown'} ({report.reported?.email || ''})</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <button className="btn-outline text-sm py-1 px-3">Review</button>
-                  <button className="bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-3 rounded-lg">
+                  <button className="bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-3 rounded-lg" onClick={() => openReportModal(report)}>
                     Take Action
                   </button>
                 </div>
@@ -342,7 +350,7 @@ function AdminDashboard() {
               value: stats?.totalAdmins || 0,
               icon: Users,
               color: "bg-blue-900",
-            },
+          },
         ].map((stat, index) => (
           <motion.div
             key={stat.title}
@@ -533,6 +541,52 @@ function AdminDashboard() {
                 </button>
               )}
             </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Report Modal */}
+      {showReportModal && selectedReport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+          >
+            <div className="text-center mb-6">
+              <Flag className="h-10 w-10 text-red-600 mx-auto mb-2" />
+              <h3 className="text-xl font-bold text-deep-navy mb-1">User Report</h3>
+              <p className="text-slate-gray mb-2">{selectedReport.reason}</p>
+              <p className="text-xs text-slate-gray mb-2">Reported on {new Date(selectedReport.createdAt).toLocaleDateString()}</p>
+              <div className="mb-2">
+                <span className="font-semibold text-slate-gray">Reporter:</span> {selectedReport.reporter?.name || 'Unknown'} ({selectedReport.reporter?.email || ''})
+              </div>
+              <div className="mb-2">
+                <span className="font-semibold text-slate-gray">Reported User:</span> {selectedReport.reported?.name || 'Unknown'} ({selectedReport.reported?.email || ''})
+              </div>
+            </div>
+            {/* Actions for reported user */}
+            <div className="flex flex-col space-y-2 mb-4">
+              {!selectedReport.reported?.isBanned && (
+                <button
+                  onClick={() => handleBanUser(selectedReport.reported._id)}
+                  disabled={banUserMutation.isPending}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                >
+                  {banUserMutation.isPending ? <LoadingSpinner size="sm" /> : <><Ban className="h-4 w-4" /><span>Ban</span></>}
+                </button>
+              )}
+              {selectedReport.reported?.role !== "admin" && (
+                <button
+                  onClick={() => handleDeleteUser(selectedReport.reported._id)}
+                  disabled={deleteUserMutation.isPending}
+                  className="w-full bg-gray-800 hover:bg-black text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                >
+                  {deleteUserMutation.isPending ? <LoadingSpinner size="sm" /> : <><Ban className="h-4 w-4" /><span>Delete</span></>}
+                </button>
+              )}
+            </div>
+            <button onClick={() => setShowReportModal(false)} className="w-full btn-outline mt-2">Close</button>
           </motion.div>
         </div>
       )}

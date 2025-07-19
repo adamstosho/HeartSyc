@@ -228,59 +228,17 @@ function Matches() {
     </div>
   )
 
-  const renderSent = () => (
-    <div>
-      {sentLoading ? (
-        <div className="flex justify-center py-12">
-          <LoadingSpinner text="Loading sent requests..." />
-        </div>
-      ) : sentData?.sent?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sentData.sent.map((req, index) => (
-            <motion.div
-              key={req._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="card"
-            >
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200">
-                  {req.to.profilePhoto ? (
-                    <img src={req.to.profilePhoto} alt={req.to.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-mint-green">
-                      <span className="text-2xl font-bold text-deep-navy">{req.to.name.charAt(0)}</span>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-deep-navy">{req.to.name}</h3>
-                  <p className="text-sm text-slate-gray">{req.to.state}, {req.to.tribe}</p>
-                </div>
-              </div>
-              <div className="text-slate-gray text-sm">Status: {req.status}</div>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        renderPlaceholder("No sent requests", "Your sent match requests will appear here", Users)
-      )}
-    </div>
-  )
-
-  const renderMatched = () => (
-    <div>
-      {matchedLoading ? (
-        <div className="flex justify-center py-12">
-          <LoadingSpinner text="Loading matches..." />
-        </div>
-      ) : matchedData?.matched?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {matchedData.matched.map((req, index) => {
-            const other = req.from._id === req.to._id ? req.from : (req.from._id === req.to._id ? req.to : (req.from._id === req.user?._id ? req.to : req.from));
-            // fallback: show both
-            return (
+  const renderSent = () => {
+    console.log('Sent Data:', sentData)
+    return (
+      <div>
+        {sentLoading ? (
+          <div className="flex justify-center py-12">
+            <LoadingSpinner text="Loading sent requests..." />
+          </div>
+        ) : Array.isArray(sentData?.sent) && sentData.sent.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sentData.sent.map((req, index) => (
               <motion.div
                 key={req._id}
                 initial={{ opacity: 0, y: 20 }}
@@ -290,32 +248,82 @@ function Matches() {
               >
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200">
-                    {req.from.profilePhoto ? (
-                      <img src={req.from.profilePhoto} alt={req.from.name} className="w-full h-full object-cover" />
+                    {req.to && req.to.profilePhoto ? (
+                      <img src={req.to.profilePhoto} alt={req.to.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-mint-green">
-                        <span className="text-2xl font-bold text-deep-navy">{req.from.name.charAt(0)}</span>
+                        <span className="text-2xl font-bold text-deep-navy">{req.to && req.to.name ? req.to.name.charAt(0) : "?"}</span>
                       </div>
                     )}
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-deep-navy">{req.from.name} & {req.to.name}</h3>
-                    <p className="text-sm text-slate-gray">Matched</p>
+                    <h3 className="text-lg font-bold text-deep-navy">{req.to && req.to.name ? req.to.name : "Unknown"}</h3>
+                    <p className="text-sm text-slate-gray">{req.to && req.to.state ? req.to.state : ""}{req.to && req.to.tribe ? `, ${req.to.tribe}` : ""}</p>
                   </div>
                 </div>
-                <Link to={`/chat/${req._id}`} className="btn-primary w-full flex items-center justify-center space-x-2 mt-2">
-                  <MessageCircle className="h-4 w-4" />
-                  <span>Chat</span>
-                </Link>
+                <div className="text-slate-gray text-sm">Status: {req.status}</div>
               </motion.div>
-            )
-          })}
-        </div>
-      ) : (
-        renderPlaceholder("No matches yet", "Your successful matches will appear here for chatting", MessageCircle)
-      )}
-    </div>
-  )
+            ))}
+          </div>
+        ) : (
+          renderPlaceholder("No sent requests", "Your sent match requests will appear here", Users)
+        )}
+      </div>
+    )
+  }
+
+  const renderMatched = () => {
+    console.log('Matched Data:', matchedData)
+    return (
+      <div>
+        {matchedLoading ? (
+          <div className="flex justify-center py-12">
+            <LoadingSpinner text="Loading matches..." />
+          </div>
+        ) : Array.isArray(matchedData?.matched) && matchedData.matched.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {matchedData.matched.map((req, index) => {
+              const from = req.from || {};
+              const to = req.to || {};
+              return (
+                <motion.div
+                  key={req._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="card"
+                >
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200">
+                      {from.profilePhoto ? (
+                        <img src={from.profilePhoto} alt={from.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-mint-green">
+                          <span className="text-2xl font-bold text-deep-navy">{from.name ? from.name.charAt(0) : "?"}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-deep-navy">
+                        {from.name || "Unknown"} & {to.name || "Unknown"}
+                      </h3>
+                      <p className="text-sm text-slate-gray">Matched</p>
+                    </div>
+                  </div>
+                  <Link to={`/chat/${req._id}`} className="btn-primary w-full flex items-center justify-center space-x-2 mt-2">
+                    <MessageCircle className="h-4 w-4" />
+                    <span>Chat</span>
+                  </Link>
+                </motion.div>
+              )
+            })}
+          </div>
+        ) : (
+          renderPlaceholder("No matches yet", "Your successful matches will appear here for chatting", MessageCircle)
+        )}
+      </div>
+    )
+  }
 
   const renderPlaceholder = (title, description, icon) => (
     <div className="card text-center py-12">

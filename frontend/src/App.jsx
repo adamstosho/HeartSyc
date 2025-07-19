@@ -55,7 +55,8 @@ function App() {
           <Route path="profile/:id" element={<Profile />} />
           <Route path="profile/edit" element={<EditProfile />} />
           <Route path="discover" element={<Discover />} />
-          <Route path="matches" element={<Matches />} />
+          {/* Only show matches for non-admins */}
+          {user?.role !== "admin" && <Route path="matches" element={<Matches />} />}
           <Route path="chat" element={<Chat />} />
           <Route path="chat/:matchId" element={<ChatRoom />} />
         </Route>
