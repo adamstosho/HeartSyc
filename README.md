@@ -19,6 +19,17 @@ Finding a compatible life partner can be difficult, especially when you want to 
 - **Statistics Dashboard**: See your profile views, matches, and connection rate.
 - **Mobile Friendly**: Works well on both desktop and mobile devices.
 
+## Web3 Potential & Future Features
+HeartSync is designed with Web3 potential in mind. In the future, the app aims to include exciting blockchain-based features such as:
+- **Send Coins**: Users will be able to send digital coins or tokens to each other as gifts or tips.
+- **Digital Gifts**: Send unique digital gifts or collectibles to matches and friends.
+- **Blockchain-Based Profiles**: Secure, verifiable user profiles and achievements on the blockchain.
+- **NFT Avatars & Badges**: Use NFT-based profile pictures and earn blockchain badges for achievements.
+- **On-Chain Matchmaking**: Transparent and secure matching logic powered by smart contracts.
+- **Web3 Wallet Integration**: Connect your crypto wallet to manage assets and interact with Web3 features.
+
+These features will make HeartSync even more interactive, rewarding, and secure for all users.
+
 ## How to Use the App
 1. **Register**: Sign up with your details and set your preferences.
 2. **Login**: Log in to your account.
@@ -42,7 +53,7 @@ Finding a compatible life partner can be difficult, especially when you want to 
 ## Getting Started
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/heartsync.git
+   git clone https://github.com/adamstosho/HeartSyc.git
    cd heartsync
    ```
 2. **Install dependencies**
@@ -84,6 +95,77 @@ Finding a compatible life partner can be difficult, especially when you want to 
      ```
 5. **Open your browser** and go to `http://localhost:3003` to use the app.
 
+## Preview of the App Interface (SCREENSHOTS)
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-2025-07-19-11_49_13.png)
+Here is the glimpse of the app landing page
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-register-2025-07-19-11_51_25.png)
+Here is the snaptshot of the registration page of the app
+
+![screenshot](/frontend/public/screenshots/screencapture-heartsync-gamma-vercel-app-chat-687b548eeaa67f24478cfe85-2025-07-19-11_57_44.png)
+This shows chat room of the app, where the matched users can hold a conversation (only for matched)
+
+
+![screenshot](/frontend/public/screenshots/screencapture-heartsync-gamma-vercel-app-chat-687b548eeaa67f24478cfe85-2025-07-19-11_58_14.png)
+Here is the reporting section located in the chat room, where users can report for admin to take action
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-admin-2025-07-19-11_58_59.png)
+This shows how the admin can takwe actions on the report cases
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-admin-2025-07-19-11_56_26.png)
+This is the admin dashboard 
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-admin-2025-07-19-11_56_43.png)
+This is the admin panel where the admin can take banning action or deletion of user's account
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-admin-2025-07-19-11_57_01.png)
+This is the admin panel where the admin can choose to verify the users, because it is only the verified users that can featured on the app
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-admin-2025-07-19-11_58_44.png)
+This shows where the admin see the reports from the users
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-chat-2025-07-19-11_54_35.png)
+Chat page
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-chat-687b548eeaa67f24478cfe85-2025-07-19-11_54_22.png)
+Main chat room interface between matched users
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-dashboard-2025-07-19-11_52_09.png)
+New registered users dashboard, awaiting verfification
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-dashboard-2025-07-19-11_52_52.png)
+Registered user's dashboard showing accurate stats and suggesgted mtch 
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-dashboard-2025-07-19-11_56_09.png)
+This shows where the admin can perform logout actions
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-discover-2025-07-19-11_53_07.png)
+This is where verfified users can find match
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-matches-2025-07-19-11_53_55.png)
+Match suggestions tab
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-matches-2025-07-19-11_54_06.png)
+Matched users tab and chatting navigation button
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-profile-2025-07-19-11_54_48.png)
+This is where the user's profile page
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-profile-687b53d8eaa67f24478cfe03-2025-07-19-11_53_37.png)
+This page is shown when the user click to view the potential match profile
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-profile-edit-2025-07-19-11_55_12.png)
+This is the edit profile page
+
+![screenshot](/frontend/public/screenshots/screencapture-localhost-3003-profile-edit-2025-07-19-11_55_32.png)
+User logout toggle 
+
+
+
+
+
+
 ## Deployment
 - The app is ready for deployment on Vercel (frontend) and Render/Heroku (backend).
 - Set environment variables in your deployment dashboard as shown above.
@@ -92,4 +174,4 @@ Finding a compatible life partner can be difficult, especially when you want to 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ## Contact
-For questions, support, or feedback, please contact the project maintainer at [your-email@example.com]. 
+For questions, support, or feedback, please contact the project maintainer at [omoridoh111@gmail.com]. 

@@ -294,16 +294,7 @@ function Home() {
                     About Us
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-heart-red transition-colors">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-heart-red transition-colors">
-                    Press
-                  </a>
-                </li>
+                
               </ul>
             </div>
             <div>
@@ -314,16 +305,7 @@ function Home() {
                     Help Center
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-heart-red transition-colors">
-                    Safety
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-heart-red transition-colors">
-                    Privacy
-                  </a>
-                </li>
+                
               </ul>
             </div>
           </div>

@@ -20,7 +20,7 @@ function Footer() {
             <div className="flex space-x-4">
               <div className="flex items-center space-x-2 text-sm text-gray-300">
                 <MapPin className="h-4 w-4" />
-                <span>Lagos, Nigeria</span>
+                <span>DLT Africa, Ota, Ogun State, Nigeria</span>
               </div>
             </div>
           </div>
@@ -34,21 +34,6 @@ function Footer() {
                   About Us
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:text-heart-red transition-colors">
-                  How It Works
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-heart-red transition-colors">
-                  Success Stories
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-heart-red transition-colors">
-                  Safety Tips
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -56,25 +41,11 @@ function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Support</h3>
             <ul className="space-y-2 text-gray-300">
-              <li>
-                <a href="#" className="hover:text-heart-red transition-colors">
-                  Help Center
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-heart-red transition-colors">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-heart-red transition-colors">
-                  Terms of Service
-                </a>
-              </li>
+              
               <li>
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4" />
-                  <span className="text-sm">support@heartsync.ng</span>
+                  <span className="text-sm">omoridoh111@gmail.com</span>
                 </div>
               </li>
             </ul>
@@ -82,7 +53,7 @@ function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-          <p>&copy; 2025 HeartSync. All rights reserved. Made with ❤️ in Nigeria.</p>
+          <p>&copy; 2025 HeartSync. All rights reserved. Made with ❤️ by ART_Redox</p>
         </div>
       </div>
     </footer>
