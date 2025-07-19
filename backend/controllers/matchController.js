@@ -22,9 +22,29 @@ function isCompatible(user, candidate) {
 
 exports.getSuggestions = async (req, res, next) => {
   try {
-    const user = req.user;
-    const candidates = await User.find({ _id: { $ne: user._id }, isBanned: false, isVerified: true });
-    const suggestions = candidates.filter(candidate => isCompatible(user, candidate));
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const prefs = user.preferences || {};
+    const minAge = prefs.ageRange?.min || 18;
+    const maxAge = prefs.ageRange?.max || 99;
+    const today = new Date();
+    const minDob = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
+    const maxDob = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+
+    const query = {
+      _id: { $ne: user._id },
+      isBanned: false,
+      isVerified: true,
+      dob: { $gte: minDob, $lte: maxDob },
+    };
+    if (prefs.preferredGender) query.gender = prefs.preferredGender;
+    if (prefs.preferredReligion) query.religion = prefs.preferredReligion;
+    if (prefs.preferredTribes && prefs.preferredTribes.length > 0) query.tribe = { $in: prefs.preferredTribes };
+    if (prefs.spokenLanguages && prefs.spokenLanguages.length > 0) query.spokenLanguages = { $in: prefs.spokenLanguages };
+    query.role = { $ne: "admin" };
+
+    const suggestions = await User.find(query).limit(20);
     res.json({ suggestions });
   } catch (err) {
     next(err);
