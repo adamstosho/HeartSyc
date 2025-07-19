@@ -31,6 +31,7 @@ HeartSync is designed with Web3 potential in mind. In the future, the app aims t
 These features will make HeartSync even more interactive, rewarding, and secure for all users.
 
 ## How to Use the App
+
 1. **Register**: Sign up with your details and set your preferences.
 2. **Login**: Log in to your account.
 3. **Edit Profile**: Complete your profile for better match suggestions.
@@ -44,6 +45,13 @@ These features will make HeartSync even more interactive, rewarding, and secure 
 7. **Profile**: View your profile or others' profiles. Edit your details or upload a new photo.
 8. **Admin (for admins only)**: Access the Admin Dashboard to manage users, verify, ban, or delete accounts, and review reports.
 9. **Report/Block**: If you see inappropriate behavior, use the report feature to notify the admin.
+
+# Quick note: ADMIN LOGIN
+email: - admin@gmail.com
+password: admin123
+
+
+
 
 ## Technologies Used
 - **Frontend**: React, Vite, Tailwind CSS, Framer Motion, React Query, Axios, React Router, React Hot Toast
@@ -94,6 +102,10 @@ These features will make HeartSync even more interactive, rewarding, and secure 
      npm run dev
      ```
 5. **Open your browser** and go to `http://localhost:3003` to use the app.
+
+# Quick note: ADMIN LOGIN
+email: - admin@gmail.com
+password: admin123
 
 ## Preview of the App Interface (SCREENSHOTS)
 
