@@ -182,4 +182,4 @@ User logout toggle
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ## Contact
-For questions, support, or feedback, please contact the project maintainer at [omoridoh111@gmail.com]. 
+For questions, support, or feedback, please contact the project maintainer at [omoridoh111@gmail.com].
