@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { Heart, MapPin, Calendar, BookOpen, Briefcase, MessageCircle } from "lucide-react"
 import { calculateAge } from "../utils/helpers"

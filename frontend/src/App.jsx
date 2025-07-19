@@ -1,5 +1,3 @@
-"use client"
-
 import { Routes, Route, Navigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from "./contexts/AuthContext"

@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
