@@ -1,3 +1,4 @@
+// app.js
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -22,7 +23,6 @@ app.use(cors({
   origin: "https://heartsync-0boj.onrender.com",
   credentials: true
 }));
-
 app.use(helmet());
 app.use(morgan('dev'));
 
@@ -32,9 +32,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/match', matchRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Error Handler
 app.use(errorHandler);
 
-module.exports = app; 
+module.exports = app;
