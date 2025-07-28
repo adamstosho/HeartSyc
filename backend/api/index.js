@@ -1,30 +1,31 @@
 const serverless = require('serverless-http');
-const express = require('express');
+const connectDB = require('../config/db');
+const app = require('../app');
 
-const app = express();
+// Connect to database with error handling
+const initDB = async () => {
+  try {
+    await connectDB();
+  } catch (error) {
+    console.error('Database connection failed:', error.message);
+    // Don't throw error, let the app continue without DB
+  }
+};
 
-// Basic middleware
-app.use(express.json());
+// Initialize database
+initDB();
 
-// Test endpoint
-app.get('/', (req, res) => {
+// Add a health check endpoint
+app.get('/health', (req, res) => {
   res.status(200).json({ 
-    message: 'Backend is working!',
+    status: 'OK', 
+    message: 'Server is running',
     timestamp: new Date().toISOString(),
     env: process.env.NODE_ENV || 'not set'
   });
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'Server is running',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Test environment variables
+// Add a test endpoint
 app.get('/test', (req, res) => {
   res.status(200).json({ 
     message: 'Environment test',
@@ -34,12 +35,5 @@ app.get('/test', (req, res) => {
   });
 });
 
-// Catch-all for 404
-app.use('*', (req, res) => {
-  res.status(404).json({ 
-    message: 'Route not found',
-    path: req.originalUrl
-  });
-});
-
+// Export the serverless handler
 module.exports = serverless(app);
