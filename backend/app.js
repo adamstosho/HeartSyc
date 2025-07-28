@@ -20,11 +20,9 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: [
-    "https://heartsync-gamma.vercel.app",
-    "http://localhost:3003",
-    "http://localhost:5173"
-  ],
+  origin: process.env.NODE_ENV === 'production' 
+    ? ["https://heartsync-gamma.vercel.app", "https://your-frontend-domain.vercel.app"]
+    : ["http://localhost:3000", "http://localhost:3003"],
   credentials: true
 }));
 app.use(helmet());

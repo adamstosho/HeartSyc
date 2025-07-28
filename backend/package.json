@@ -2,11 +2,10 @@
   "name": "matchnaija-backend",
   "version": "1.0.0",
   "description": "Backend for MatchNaija - culturally-aware matchmaking platform",
-  "main": "api/index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node api/index.js",
-    "dev": "nodemon server.js",
-    "build": "echo 'No build step needed'"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
