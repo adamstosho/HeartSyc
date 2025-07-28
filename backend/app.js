@@ -20,11 +20,15 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: "https://heartsync-0boj.onrender.com",
+  origin: "https://heartsync-gamma.vercel.app/",
   credentials: true
 }));
 app.use(helmet());
 app.use(morgan('dev'));
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to the API" });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
