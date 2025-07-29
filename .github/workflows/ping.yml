@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping the Render App
-        run: curl -s https://heartsync-0boj.onrender.com/health
+        run: curl -s https://heartsyc-1.onrender.com/health
 
         
