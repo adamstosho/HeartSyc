@@ -7,3 +7,5 @@ export const usersAPI = {
   deleteUser: (id) => apiClient.delete(`/users/${id}`),
   getDashboardStats: () => apiClient.get("/users/me/dashboard-stats"),
 }
+
+
